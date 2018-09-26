@@ -6,4 +6,4 @@ import Text.Pandoc.JSON
 import PandocMario
 
 main :: IO ()
-main = simpleSearch "foo berry pickles"
+main = simpleSearch "oo berry pickle"

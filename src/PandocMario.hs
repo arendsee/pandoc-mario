@@ -6,7 +6,7 @@ module PandocMario (
 
 import Text.Pandoc.JSON
 import Data.Aeson (eitherDecode)
-import Data.List (intersperse)
+import Data.List (intersperse, isInfixOf)
 import Data.Maybe (catMaybes)
 import System.Exit (exitFailure)
 import qualified Data.ByteString.Lazy as BL
@@ -31,7 +31,7 @@ paraMatchs b (Pandoc _ bs) = catMaybes $ map (paraMatch b) bs
 paraMatch :: Block -> Block -> Maybe String
 paraMatch (Para xs) (Para ys) =
   if
-    infixMatch xs ys
+    isInfixOf (asString xs) (asString ys)
   then
     Just (asString ys)
   else
@@ -47,14 +47,15 @@ writeInline (Emph xs)        = concat . map writeInline $ xs
 writeInline (Strong xs)      = concat . map writeInline $ xs
 writeInline (Strikeout xs)   = concat . map writeInline $ xs
 writeInline (Superscript xs) = concat . map writeInline $ xs
-writeInline (Subscript	 xs) = concat . map writeInline $ xs
-writeInline (SmallCaps	 xs) = concat . map writeInline $ xs
+writeInline (Subscript xs)   = concat . map writeInline $ xs
+writeInline (SmallCaps xs)   = concat . map writeInline $ xs
 writeInline (Quoted SingleQuote xs) = concat . map writeInline $ xs
 writeInline (Quoted DoubleQuote xs) = concat . map writeInline $ xs
 writeInline Space     = " "
 writeInline SoftBreak = " "
 writeInline LineBreak = " "
 writeInline _ = ""
+-- -- TODO: add handling for the following cases (currently they are ignored)
 -- Cite [Citation] [Inline]   | Citation (list of inlines)
 -- Code Attr String           | Inline code (literal)
 -- Math MathType String       | TeX math (literal)
@@ -63,12 +64,6 @@ writeInline _ = ""
 -- Image Attr [Inline] Target | Image: alt text (list of inlines), target
 -- Note [Block]               | Footnote or endnote
 -- Span Attr [Inline]         | Generic inline container with attributes
-
-
-infixMatch :: [Inline] -> [Inline] -> Bool
-infixMatch [] _ = True
-infixMatch _ [] = False
-infixMatch (x:xs) (y:ys) = (x == y && infixMatch xs ys) || infixMatch (x:xs) ys
 
 -- | Either print matching paragraphs and exit with SUCCESS, or exit with FAIL
 matchOrDie :: [String] -> IO ()

@@ -1,0 +1,37 @@
+name:                pandoc-mario
+version:             0.1.0.0
+github:              "arendsee/pandoc-mario"
+license:             BSD3
+author:              "Zebulun Arendsee"
+maintainer:          "zbwrnz@gmail.com"
+copyright:           "2018 Zebulun Arendsee"
+description:         Please see the README on GitHub at <https://github.com/arendsee/pandoc-mario#readme>
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+
+dependencies:
+  - base >= 4.7 && < 5
+  - pandoc
+  - pandoc-types
+  - text
+
+library:
+  source-dirs: src
+
+executables:
+  pandoc-mario-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - pandoc-mario

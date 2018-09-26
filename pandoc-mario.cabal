@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d16f033de5687f5fc0c14d1e37968607a16d0336c1a2568633f89fa8ab45361c
+-- hash: 8b41e180f418e9448400abd4c4a92639ebd84d0e265eed4298f04afac83e01e8
 
 name:           pandoc-mario
 version:        0.1.0.0
@@ -27,13 +27,15 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      PandocMario
   other-modules:
       Paths_pandoc_mario
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
+    , bytestring
     , pandoc
     , pandoc-types
     , text
@@ -47,7 +49,9 @@ executable pandoc-mario-exe
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
+    , bytestring
     , pandoc
     , pandoc-mario
     , pandoc-types

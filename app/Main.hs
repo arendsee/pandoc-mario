@@ -3,8 +3,7 @@ module Main where
 -- this example is adapted from an example in pandoc docs
 
 import Text.Pandoc.JSON
+import PandocMario
 
 main :: IO ()
-main = toJSONFilter behead
-  where behead (Header n _ xs) | n >= 2 = Para [Emph xs]
-        behead x = x
+main = simpleSearch "foo berry pickles"

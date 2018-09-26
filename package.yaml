@@ -20,6 +20,8 @@ dependencies:
   - base >= 4.7 && < 5
   - pandoc
   - pandoc-types
+  - bytestring
+  - aeson
   - text
 
 library:
